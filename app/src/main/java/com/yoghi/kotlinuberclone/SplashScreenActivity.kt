@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.firebase.ui.auth.AuthMethodPickerLayout
@@ -95,11 +96,13 @@ class SplashScreenActivity : AppCompatActivity() {
 
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     if (dataSnapshot.exists()) {
-                        Toast.makeText(
-                            this@SplashScreenActivity,
-                            "User already registered!",
-                            Toast.LENGTH_SHORT
-                        ).show()
+//                        Toast.makeText(
+//                            this@SplashScreenActivity,
+//                            "User already registered!",
+//                            Toast.LENGTH_SHORT
+//                        ).show()
+                        val model = dataSnapshot.getValue(DriverInfoModel::class.java)
+                        goToHomeActivity(model)
                     } else {
                         showRegisterLayout()
                     }
@@ -108,12 +111,21 @@ class SplashScreenActivity : AppCompatActivity() {
             })
     }
 
+    private fun goToHomeActivity(model: DriverInfoModel?) {
+        Common.currentUser = model
+        startActivity(Intent(this, DriverHomeActivity::class.java))
+        finish()
+    }
+
     private fun showRegisterLayout() {
         val builder = AlertDialog.Builder(this, R.style.DialogTheme)
         val itemView = LayoutInflater.from(this).inflate(R.layout.layout_register, null)
 
-//        val edt_phone_number =
-//            itemView.findViewById<View>(R.id.edit_phone_number) as TextInputEditText
+        val edt_phone_number = itemView.findViewById<View>(R.id.edt_phone_number) as TextInputEditText
+        val edt_first_name = itemView.findViewById<View>(R.id.edt_first_name) as TextInputEditText
+        val edt_last_name = itemView.findViewById<View>(R.id.edt_last_name) as TextInputEditText
+
+        val btn_continue = itemView.findViewById<View>(R.id.btn_continue) as Button
 
         Log.d("CEK_DATA", FirebaseAuth.getInstance().currentUser.toString())
 
@@ -129,7 +141,7 @@ class SplashScreenActivity : AppCompatActivity() {
         dialog.show()
 
         // Event Click
-        btn_continue?.setOnClickListener {
+        btn_continue.setOnClickListener {
             if (TextUtils.isDigitsOnly(edt_first_name.text.toString())) {
                 Toast.makeText(
                     this@SplashScreenActivity,
@@ -176,6 +188,8 @@ class SplashScreenActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         dialog.dismiss()
+
+                        goToHomeActivity(model)
 
                         progress_bar.visibility = View.GONE
                     }
