@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -92,10 +93,11 @@ class DriverHomeActivity : AppCompatActivity() {
 
                 val dialog = builder.create()
                 dialog.setOnShowListener {
+                    // Fix Deprecated
                     dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setTextColor(resources.getColor(android.R.color.holo_red_dark))
+                        .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, android.R.color.holo_red_dark))
                     dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                        .setTextColor(resources.getColor(R.color.colorAccent))
+                        .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, android.R.color.holo_red_dark))
                 }
 
                 dialog.show()
@@ -180,9 +182,9 @@ class DriverHomeActivity : AppCompatActivity() {
         val dialog = builder.create()
         dialog.setOnShowListener {
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                .setTextColor(resources.getColor(android.R.color.holo_red_dark))
+                .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, android.R.color.holo_red_dark))
             dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(resources.getColor(R.color.colorAccent))
+                .setTextColor(ContextCompat.getColor(this@DriverHomeActivity, R.color.colorAccent))
         }
 
         dialog.show()

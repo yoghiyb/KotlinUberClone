@@ -79,6 +79,7 @@ class SplashScreenActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         listener = FirebaseAuth.AuthStateListener { myFirebaseAuth ->
             val user = myFirebaseAuth.currentUser
+            Log.d("CURRENTUSER", user.toString())
             if (user != null) {
                 FirebaseInstanceId.getInstance()
                     .instanceId
